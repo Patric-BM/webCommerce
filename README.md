@@ -1,6 +1,6 @@
 # Importante
 
-*** O projeto ainda não foi totalmente implementado, vou finalizar esse sábado. Não tive tempo de revisar o conteúdo de autenticação durante a semana.**
+* O projeto ainda não foi totalmente implementado, vou finalizar esse sábado. Não tive tempo de revisar o conteúdo de autenticação durante a semana. 
 
 -----
 
