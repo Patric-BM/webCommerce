@@ -1,11 +1,13 @@
-# Nome do Projeto
+# Importante
+
+*** O projeto ainda não foi totalmente implementado, vou finalizar esse sábado. Não tive tempo de revisar o conteúdo de autenticação durante a semana.**
+
+-----
+
+## Sobre
+
 
 Projeto do módulo 5 - Programação Web III (WebAPI)
-
-**Importante - O projeto ainda não foi totalmente implementado, vou finalizar esse sábado. Não tive tempo de revisar o conteúdo de atententicação durante a semana.**
-
-## Como usar
-
 
 API de ecommerce
 
