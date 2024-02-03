@@ -2,7 +2,7 @@
 
 Projeto do módulo 5 - Programação Web III (WebAPI)
 
-<span style="color:red;">*Importante - O projeto ainda não foi totalmente implementado, vou finalizar esse sábado. Não tive tempo de revisar o conteúdo de atententicação durante a semana. </span>
+**Importante - O projeto ainda não foi totalmente implementado, vou finalizar esse sábado. Não tive tempo de revisar o conteúdo de atententicação durante a semana.**
 
 ## Como usar
 
