@@ -32,7 +32,11 @@ public class UsersController : ControllerBase
     [Authorize(Roles = "Admin, User")]
     public IActionResult GetById(int id)
     {
-        id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        if (id != Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value) && !User.IsInRole("Admin"))
+        {
+            return Forbid();
+        }
+  
         var user = _userService.GetById(id);
         return Ok(user);
     }
