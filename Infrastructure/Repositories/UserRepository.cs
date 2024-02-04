@@ -14,6 +14,7 @@ public interface IUserRepository
     User CreateUser(User user);
     User UpdateUser(User user);
     void DeleteUser(int id);
+    List<User> List();
 
 }
 
@@ -34,6 +35,11 @@ public class UserRepository : IUserRepository
     public User GetUserByEmail(string userEmail)
     {
         return _users.FirstOrDefault(u => u.Email == userEmail);
+    }
+
+    public List<User> List()
+    {
+        return _users;
     }
 
     public User CreateUser(User user)

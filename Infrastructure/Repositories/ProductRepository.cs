@@ -13,6 +13,8 @@ public interface IProductRepository
     Product CreateProduct(Product product);
     Product UpdateProduct(Product product);
     void DeleteProduct(int id);
+
+    List<Product> List();
 }
 
 public class ProductRepository : IProductRepository
@@ -56,5 +58,10 @@ public class ProductRepository : IProductRepository
             throw new NotFoundException("Product not found");
         }
         _products.Remove(existingProduct);
+    }
+
+    public List<Product> List()
+    {
+        return _products;
     }
 }

@@ -1,4 +1,6 @@
 
+using System;
+using System.Security.Claims;
 using Application.Services;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -17,10 +19,20 @@ public class UsersController : ControllerBase
     {
         _userService = userService;
     }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public IActionResult List()
+    {
+        var users = _userService.List();
+        return Ok(users);
+    }
+
     [HttpGet("{id}")]
     [Authorize(Roles = "Admin, User")]
     public IActionResult GetById(int id)
     {
+        id = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var user = _userService.GetById(id);
         return Ok(user);
     }
@@ -32,6 +44,7 @@ public class UsersController : ControllerBase
         var createdUser = _userService.Create(user);
         return Ok(createdUser);
     }
+
     
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]

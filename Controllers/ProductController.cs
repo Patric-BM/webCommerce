@@ -18,6 +18,14 @@ public class ProductController : ControllerBase
         _productService = productService;
     }
 
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult List()
+    {
+        var products = _productService.List();
+        return Ok(products);
+    }
+
     [HttpGet("{id}")]
     [AllowAnonymous]
     public IActionResult GetById(int id)
@@ -27,7 +35,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    
+
     public IActionResult Create(Product product)
     {
         var createdProduct = _productService.Create(product);

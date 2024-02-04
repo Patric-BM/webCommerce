@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using System.Linq;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -12,7 +13,7 @@ public interface IUserService
 {
     // User Authenticate(string username, string password);
     UserResponse GetById(int id);
-
+    List<UserResponse> List();
     UserResponse GetByEmail(string email);
     UserResponse Create(User user);
     UserResponse Update(User user);
@@ -75,5 +76,10 @@ public class UserService : IUserService
     public UserResponse GetByEmail(string email)
     {
         return UserMapper.Map(_userRepository.GetUserByEmail(email));
+    }
+
+    public List<UserResponse> List()
+    {
+        return _userRepository.List().Select(UserMapper.Map).ToList();
     }
 }

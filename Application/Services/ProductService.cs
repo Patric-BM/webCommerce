@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using System.Linq;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -13,6 +14,7 @@ public interface IProductService
     void Delete(int id);
     Product GetById(int id);
     Product Update(Product product);
+    List<Product> List();
 }
 
 public class ProductService : IProductService
@@ -51,6 +53,11 @@ public class ProductService : IProductService
     {
        
         return _productRepository.GetProductById(id);
+    }
+
+    public List<Product> List()
+    {
+        return _productRepository.List();
     }
 
     public Product Update(Product product)
