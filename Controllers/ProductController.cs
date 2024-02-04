@@ -1,12 +1,14 @@
 
 using Application.Services;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebCommerce.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize (Roles = "Admin")]
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -17,6 +19,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public IActionResult GetById(int id)
     {
         var product = _productService.GetById(id);
@@ -24,10 +27,11 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
+    
     public IActionResult Create(Product product)
     {
         var createdProduct = _productService.Create(product);
-        return CreatedAtAction(nameof(GetById), new { id = createdProduct.Id }, createdProduct);
+        return Ok(createdProduct);
     }
 
     [HttpPut("{id}")]

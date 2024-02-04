@@ -10,7 +10,7 @@ namespace Infrastructure.Repositories;
 public interface IUserRepository
 {
     User GetUserById(int id);
-    User GetUserByUsername(string username);
+    User GetUserByEmail(string userEmail);
     User CreateUser(User user);
     User UpdateUser(User user);
     void DeleteUser(int id);
@@ -21,18 +21,19 @@ public class UserRepository : IUserRepository
 {
     private static List<User> _users = new List<User>
     {
-        new User { Id = 1, Username = "admin", PasswordHash = "admin", IsAdmin = true },
-        new User { Id = 2, Username = "user", PasswordHash = "user", IsAdmin = false }
+        new User { Id = 1, Username = "User1", Email = "test@test.com", PasswordHash = "000000", Role = "Admin" },
+        new User { Id = 2, Username = "Patric", Email = "pp@test.com",PasswordHash = "2975:/gO19xHqIZvuHyQbBPIBgpUgSIjz9GyC:HEkbfAkCy0GwxtLOE4l6NcJmW9o=",Role = "Admin"
+}
     };
 
     public User GetUserById(int id)
     {
-        return _users.FirstOrDefault(u => u.Id == id ) ?? throw new NotFoundException("Not Found");
+        return _users.FirstOrDefault(u => u.Id == id);
     }
 
-    public User GetUserByUsername(string username)
+    public User GetUserByEmail(string userEmail)
     {
-        return _users.FirstOrDefault(u => u.Username == username) ?? throw new NotFoundException("Not Found");
+        return _users.FirstOrDefault(u => u.Email == userEmail);
     }
 
     public User CreateUser(User user)

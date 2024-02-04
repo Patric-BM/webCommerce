@@ -1,5 +1,6 @@
 
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Domain.Exceptions;
 using Domain.Responses;
@@ -28,6 +29,11 @@ public class ExceptionMiddleware
             {
                 context.Response.StatusCode = exception.StatusCode;
                 await context.Response.WriteAsync(exception.GetResponseMessage());
+            } 
+            else
+            {
+                context.Response.StatusCode = 500;
+                await context.Response.WriteAsync(JsonSerializer.Serialize(new ErrorResponse(ex.Message)));
             }
 
         } 

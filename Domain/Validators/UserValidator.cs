@@ -29,6 +29,26 @@ public class UserValidator : IValidate<User>
             });
         }
 
+        if (string.IsNullOrWhiteSpace(entity.Email))
+        {
+            errors.Add(new ErrorMessageResponses
+            {
+                Field = "Email",
+                Message = "Email is required"
+            });
+        }
+
+        if (string.IsNullOrWhiteSpace(entity.Role))
+        {
+            errors.Add(new ErrorMessageResponses
+            {
+                Field = "Role",
+                Message = "Role is required"
+            });
+        }
+        {
+        }
+
         return errors;
     }
 }
