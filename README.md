@@ -1,6 +1,6 @@
 # Importante
 
-* O projeto Foi finalizado esse final de semana, pois nos dias anteriores não tive muito tempo de revisar o conteúdo de autenticação. Alguns Mappers não foram devidamente testados ou implementados e válidadores também. Portanto, pode contar bugs. :)
+* Parte do projeto Foi finalizado esse final de semana, pois nos dias anteriores não tive muito tempo de revisar o conteúdo de autenticação. Alguns Mappers não foram devidamente testados ou implementados e válidadores também. Portanto, pode contar bugs. :)
 
 -----
 
