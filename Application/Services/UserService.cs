@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Mappers;
@@ -12,12 +13,12 @@ namespace Application.Services;
 public interface IUserService
 {
     // User Authenticate(string username, string password);
-    UserResponse GetById(int id);
-    List<UserResponse> List();
-    UserResponse GetByEmail(string email);
-    UserResponse Create(User user);
-    UserResponse Update(User user);
-    void Delete(int id);
+    Task<UserResponse> GetById(int id);
+    Task<List<UserResponse>> List();
+    Task<UserResponse> GetByEmail(string email);
+    Task<UserResponse> Create(User user);
+    Task<UserResponse> Update(User user);
+    Task Delete(int id);
 }
 public class UserService : IUserService
 {
@@ -33,7 +34,7 @@ public class UserService : IUserService
         _hashingService = hashingService;
     }
 
-    public UserResponse Create(User user)
+    public  async Task<UserResponse> Create(User user)
     {
         var _errorMessages = _userValidator.Validate(user);
         if (_errorMessages.Any())
@@ -41,45 +42,45 @@ public class UserService : IUserService
             throw new BadRequestException(_errorMessages);
         }
 
-       user.PasswordHash = _hashingService.Hash(user.PasswordHash!  );
+        user.PasswordHash = _hashingService.Hash(user.PasswordHash!);
 
-        _userRepository.CreateUser(user);
-        return UserMapper.Map(user);
+        var createdUser = await _userRepository.CreateUser(user);
+        return UserMapper.Map(createdUser);
     }
 
-    public void Delete(int id)
+    public async Task Delete(int id)
     {
-        var _errorMessages = _userValidator.Validate(_userRepository.GetUserById(id));
+        var _errorMessages = _userValidator.Validate(await _userRepository.GetUserById(id));
         if (_errorMessages.Any())
         {
             throw new BadRequestException(_errorMessages);
         }
-        _userRepository.DeleteUser(id);
+        await _userRepository.DeleteUser(id);
     }
 
-    public UserResponse GetById(int id)
+    public async Task<UserResponse> GetById(int id)
     {
-        return UserMapper.Map(_userRepository.GetUserById(id));
+        return UserMapper.Map(await _userRepository.GetUserById(id));
     }
 
-    public UserResponse Update(User user)
+    public async Task<UserResponse> Update(User user)
     {
         var _errorMessages = _userValidator.Validate(user);
         if (_errorMessages.Any())
         {
             throw new BadRequestException(_errorMessages);
         }
-        _userRepository.UpdateUser(user);
+        await _userRepository.UpdateUser(user);
         return UserMapper.Map(user);
     }
 
-    public UserResponse GetByEmail(string email)
+    public async Task<UserResponse> GetByEmail(string email)
     {
-        return UserMapper.Map(_userRepository.GetUserByEmail(email));
+        return UserMapper.Map(await _userRepository.GetUserByEmail(email));
     }
 
-    public List<UserResponse> List()
+    public async Task<List<UserResponse>> List()
     {
-        return _userRepository.List().Select(UserMapper.Map).ToList();
+        return (await _userRepository.List()).Select(UserMapper.Map).ToList();
     }
 }

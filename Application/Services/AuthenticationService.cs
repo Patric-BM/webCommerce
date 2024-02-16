@@ -1,5 +1,6 @@
 
 using System;
+using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Responses;
@@ -9,7 +10,7 @@ namespace Application.Services;
 
 public interface IAuthenticationService
 {
-    AuthenticationResponse SignIn(Authentication authentication);
+    Task<AuthenticationResponse> SignIn(Authentication authentication);
 }
 
 public class AuthenticationService : IAuthenticationService
@@ -26,11 +27,11 @@ public class AuthenticationService : IAuthenticationService
         _jwtService = jwtService;
     }
 
-    public AuthenticationResponse SignIn(Authentication authentication)
+    public async Task<AuthenticationResponse> SignIn(Authentication authentication)
     {
         Console.WriteLine(authentication.Email);
         Console.WriteLine(authentication.Password);
-        var user = _userRepository.GetUserByEmail(authentication.Email!);
+        var user = await _userRepository.GetUserByEmail(authentication.Email!);
         if (user is null)
         {
             throw new UnathorizedException(_message);

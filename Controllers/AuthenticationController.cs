@@ -1,5 +1,6 @@
 
 using System;
+using System.Threading.Tasks;
 using Application.Services;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult SignIn( Authentication authentication)
+    public async Task<IActionResult> SignIn( Authentication authentication)
     {
-        var user = _userService.SignIn(authentication);
+        var user = await _userService.SignIn(authentication);
         Console.WriteLine(user);
         return Ok(user);
     }

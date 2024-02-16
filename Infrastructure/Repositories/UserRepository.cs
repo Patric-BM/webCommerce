@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Exceptions;
 
@@ -9,66 +10,71 @@ namespace Infrastructure.Repositories;
 
 public interface IUserRepository
 {
-    User GetUserById(int id);
-    User GetUserByEmail(string userEmail);
-    User CreateUser(User user);
-    User UpdateUser(User user);
-    void DeleteUser(int id);
-    List<User> List();
+    Task<User> GetUserById(int id);
+    Task<User> GetUserByEmail(string userEmail);
+    Task<User> CreateUser(User user);
+    Task<User> UpdateUser(User user);
+    Task DeleteUser(int id);
+    Task<List<User>> List();
 
 }
 
 public class UserRepository : IUserRepository
 {
-    private static List<User> _users = new List<User>
-    {
-        new User { Id = 1, Username = "User1", Email = "test@test.com", PasswordHash = "000000", Role = "Admin" },
-        new User { Id = 2, Username = "Patric", Email = "pp@test.com",PasswordHash = "2975:/gO19xHqIZvuHyQbBPIBgpUgSIjz9GyC:HEkbfAkCy0GwxtLOE4l6NcJmW9o=",Role = "Admin"
-}
-    };
 
-    public User GetUserById(int id)
+
+    private static Task<List<User>> _users = Task.Run(() => new List<User>
+{
+    new User { Id = 2, Username = "Patric", Email = "pp@test.com",PasswordHash = "2975:/gO19xHqIZvuHyQbBPIBgpUgSIjz9GyC:HEkbfAkCy0GwxtLOE4l6NcJmW9o=",Role = "Admin"}
+});
+
+
+
+    public async Task<User> GetUserById(int id)
     {
-        return _users.FirstOrDefault(u => u.Id == id);
+      List<User>? result = await _users;
+        return result.FirstOrDefault(u => u.Id == id);
     }
 
-    public User GetUserByEmail(string userEmail)
+    public async Task<User>  GetUserByEmail(string userEmail)
     {
-        return _users.FirstOrDefault(u => u.Email == userEmail);
+        var result = await _users;
+        Console.WriteLine(result);
+        return result.FirstOrDefault(u => u.Email == userEmail);
+     
     }
 
-    public List<User> List()
+    public async Task<List<User>> List()
     {
-        return _users;
+        return await _users;
     }
 
-    public User CreateUser(User user)
+    public async Task<User> CreateUser(User user)
     {
-        user.Id = _users.Max(u => u.Id) + 1;
-        _users.Add(user);
+        user.Id = (await _users).Max(u => u.Id) + 1;
+        (await _users).Add(user);
         return user;
     }
 
-    public User UpdateUser(User user)
+    public async Task<User> UpdateUser(User user)
     {
-        var existingUser = _users.FirstOrDefault(u => u.Id == user.Id);
+        var existingUser = (await _users).FirstOrDefault(u => u.Id == user.Id);
         if (existingUser is null)
         {
             throw new NotFoundException("Not Found");
         }
 
-        _users[_users.IndexOf(existingUser)] = user;
+        (await _users)[(await _users).IndexOf(existingUser)] = user;
         return user;
     }
 
-    public void DeleteUser(int id)
+    public async Task DeleteUser(int id)
     {
-        var existingUser = _users.FirstOrDefault(u => u.Id == id);
+        var existingUser = (await _users).FirstOrDefault(u => u.Id == id);
         if (existingUser is null)
         {
             throw new NotFoundException("Not Found");
         }
-
-        _users.Remove(existingUser);
+        (await _users).Remove(existingUser);
     }
 }
